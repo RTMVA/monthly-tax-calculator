@@ -82,13 +82,13 @@ def create_earnings_information_frame(root,canvas):
     frame_earningsInformation = CTkFrame(
         root,
         width = 320,
-        height = 485,
+        height = 505,
         fg_color = "#f8fafc",
         corner_radius = 15,
         border_width = 2,
         border_color = "#5b43e7"
         )
-    canvas.create_window(175,393,window = frame_earningsInformation)
+    canvas.create_window(175,408,window = frame_earningsInformation)
 
     #---Bookbag icon with Header---
     bookbag_icon = Image.open("bookbag.png").convert("RGBA")
@@ -103,7 +103,7 @@ def create_earnings_information_frame(root,canvas):
         bg_color = "#f8fafc",
         compound = "left"
     ) 
-    canvas.create_window(130,192,window = bookbag_label)
+    canvas.create_window(130,177,window = bookbag_label)
 
     #---Hourly Wage Label---
     Hourly_wageL = CTkLabel(
@@ -114,7 +114,7 @@ def create_earnings_information_frame(root,canvas):
         fg_color = "#f8fafc",
         bg_color = "#f8fafc"
     )
-    canvas.create_window(78,225,window = Hourly_wageL)
+    canvas.create_window(78,210,window = Hourly_wageL)
 
     #---Hourly wage entry widget---
     hourlywage_entry = CTkEntry(
@@ -125,7 +125,7 @@ def create_earnings_information_frame(root,canvas):
         font = ("Segui UI",15,"bold"),
     )
     hourlywage_entry.insert(0,"£14.16")
-    canvas.create_window(168,265,window = hourlywage_entry)
+    canvas.create_window(168,250,window = hourlywage_entry)
 
     #---hourly rate info label---
     info_hourlywage = CTkLabel(
@@ -136,7 +136,7 @@ def create_earnings_information_frame(root,canvas):
         bg_color = "#f8fafc",
         font = ("Comic Sans Ms",11)
     )
-    canvas.create_window(100,303,window = info_hourlywage)
+    canvas.create_window(100,288,window = info_hourlywage)
 
     #---Monthly hours label---
     monthly_hourlabel = CTkLabel(
@@ -147,7 +147,7 @@ def create_earnings_information_frame(root,canvas):
         bg_color = "#f8fafc",
         font = ("Segui UI",13,"bold")
     )
-    canvas.create_window(100,333,window = monthly_hourlabel)
+    canvas.create_window(100,318,window = monthly_hourlabel)
 
     #---monthly hours entry widget---
     monthlyHours_entry = CTkEntry(
@@ -158,7 +158,7 @@ def create_earnings_information_frame(root,canvas):
         font = ("Segui UI",15,"bold"),
     )
     monthlyHours_entry.insert(0,"160")
-    canvas.create_window(168,373,window = monthlyHours_entry)
+    canvas.create_window(168,358,window = monthlyHours_entry)
 
     #---monthly hours info label---
     tip_monthlyHours = CTkLabel(
@@ -169,7 +169,7 @@ def create_earnings_information_frame(root,canvas):
         bg_color = "#f8fafc",
         font = ("Comic Sans Ms",11)
     )
-    canvas.create_window(112,412,window = tip_monthlyHours)
+    canvas.create_window(112,397,window = tip_monthlyHours)
 
     #---calcualtion preview frame---
     tip_calculatedFrame = CTkFrame(
@@ -182,7 +182,7 @@ def create_earnings_information_frame(root,canvas):
         border_color = "#3399cc",
         bg_color = "#f8fafc"
     )
-    canvas.create_window(170,470,window = tip_calculatedFrame)
+    canvas.create_window(170,455,window = tip_calculatedFrame)
 
     #---title for tip label---
     mcalSalarayLabel = CTkLabel(
@@ -193,7 +193,7 @@ def create_earnings_information_frame(root,canvas):
         font = ("Segui UI",13,"bold"),
         fg_color = "#e6f5fd"
     )
-    canvas.create_window(145,460,window = mcalSalarayLabel)
+    canvas.create_window(145,445,window = mcalSalarayLabel)
 
     #---monthly pay tip label---
     tip_calculation = 14.16 * 160
@@ -205,42 +205,53 @@ def create_earnings_information_frame(root,canvas):
         font = ("Segui UI",13),
         fg_color = "#e6f5fd"
     )
-    calc_placement = canvas.create_window(133,485,window = calculatedSalaray)
+    calc_placement = canvas.create_window(133,470,window = calculatedSalaray)
 
     #---Alternative monthly salary label---
     or_option = CTkLabel(
         root,
-        text = "Or Enter Gross Monthly Salaray",
+        text = "Annual Gross Income ",
         text_color = "#212121",
         bg_color = "#f8fafc",
         fg_color = "#f8fafc",
         font = ("Segui UI",13,"bold")
     )
-    canvas.create_window(135,530,window = or_option)
+    canvas.create_window(108,515,window = or_option)
 
-    #---alternative monthly salary entry widget---
-    alt_monthlySalary_entry = CTkEntry(
+    #---Gross income input widget---
+    Yearly_grossIncome = CTkEntry(
         root,
         width = 260,
         height = 48,
         corner_radius = 10,
         font = ("Segui UI",15,"bold"),
     )
-    alt_monthlySalary_entry.insert(0,"£1000")
-    canvas.create_window(168,570,window = alt_monthlySalary_entry)
+    Yearly_grossIncome.insert(0,"£1000")
+    canvas.create_window(163,555,window = Yearly_grossIncome)
 
     #alternative tip label
     override_label = CTkLabel(
         root,
-        text = "Override calculation with fixed salary",
+        text = "Enter your expected gross income for the current tax year ",
         text_color = "#717579",
         bg_color = "#f8fafc",
         fg_color = "#f8fafc",
         font = ("Comic Sans MS",11)
     )
-    canvas.create_window(135,608,window = override_label)
+    canvas.create_window(175,595,window = override_label)
 
-    return hourlywage_entry.get(),monthlyHours_entry.get(),alt_monthlySalary_entry.get()
+    override_label2 = CTkLabel(
+        root,
+        text = "(6 April 2025 to 5 April 2026):",
+        text_color = "#717579",
+        bg_color = "#f8fafc",
+        fg_color = "#f8fafc",
+        font = ("Comic Sans MS",11)
+    )
+    canvas.create_window(105,615,window = override_label2)
+    
+
+    return hourlywage_entry.get(),monthlyHours_entry.get(),Yearly_grossIncome.get()
 
 create_earnings_information_frame(root,canvas)
 
@@ -263,13 +274,13 @@ def create_deductions_frame(root,canvas):
     frame_deductions = CTkFrame(
         root,
         width = 320,
-        height = 485,
+        height = 505,
         fg_color = "#f8fafc",
         corner_radius = 15,
         border_width = 2,
         border_color = "#6640e9"
     )
-    canvas.create_window(540,393,window = frame_deductions)
+    canvas.create_window(540,410,window = frame_deductions)
 
     st = Image.open("Stats.png").convert("RGBA")
     stats_image = ImageTk.PhotoImage(st)
