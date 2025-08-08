@@ -68,6 +68,16 @@ catch_phrase = CTkLabel(
 )
 canvas.create_window(390,60,window = catch_phrase)
 
+tax_code = CTkLabel(
+    root,
+    text = "Based on tax-code 1257L",
+    text_color = "#717579",
+    font = ("Arial",12,"bold"),
+    fg_color = "#5b43e7",
+    bg_color = "#5b43e7",
+)
+canvas.create_window(640,10,window = tax_code)
+
 def create_earnings_information_frame(root,canvas):
     """
     Sets up the left-side Earnings Infromation which includes:
@@ -383,6 +393,7 @@ def create_deductions_frame(root,canvas):
         height = 48,
         corner_radius = 10,
         font = ("Segui UI",15,"bold"),
+        text_color = "#717579",
     )
     national_insuranceEntry.insert(0,"£Auto-calculated")
     canvas.create_window(530,490, window = national_insuranceEntry)
