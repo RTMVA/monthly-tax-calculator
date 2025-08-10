@@ -422,7 +422,39 @@ Grossmonthly_income = calc_monthlyIncome(hours,rate)
 
 
 def summary_page():
-    return
+    """
+    Opens a Toplevel window once the Calculate take home pay button has been clicked
+    -displays gross monthly salary
+    -displays PAYE tax
+    -displays National Insurance
+    -displays pension Contributions
+    -displays any other deductions
+    -displays the total amount of deductions
+    - Displays the Total net take home-pay
+    """
+
+    #---window config---
+    window = Toplevel()
+    window.geometry("700x500")
+    window.title("Calculation Breakdown")
+
+    #---canvas for flexible widget placement---
+    canva = Canvas(
+        window,
+        width = 700,
+        height = 500,
+        bg = "#f8fafc",
+    )
+    canva.place(
+        x = 0,
+        y = 0,
+        relheight = 1,
+        relwidth = 1,
+    )
+
+    calc_breakdownimg = Image.open("calc_breakdown.png").convert("RGBA")
+
+    
 
 Calc_TakehomePayButton = CTkButton(
     root,
