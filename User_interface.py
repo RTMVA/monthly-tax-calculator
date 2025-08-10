@@ -307,7 +307,7 @@ def create_deductions_frame(root,canvas):
         fg_color = "#f8fafc",
         compound = "left"
     )
-    canvas.create_window(520,192,window = right_frameTitle)
+    canvas.create_window(520,177,window = right_frameTitle)
 
     #---Pension Contribution label---
     pension_contributionL = CTkLabel(
@@ -318,7 +318,7 @@ def create_deductions_frame(root,canvas):
         fg_color = "#f8fafc",
         bg_color = "#f8fafc"
     )
-    canvas.create_window(470,225,window = pension_contributionL)
+    canvas.create_window(470,210,window = pension_contributionL)
 
     #---Pension Contribution entry widget---
     pensionContri_entry = CTkEntry(
@@ -329,7 +329,7 @@ def create_deductions_frame(root,canvas):
         font = ("Segui UI",15,"bold"),
     )
     pensionContri_entry.insert(0,"£24.00")
-    canvas.create_window(535,265,window = pensionContri_entry)
+    canvas.create_window(535,250,window = pensionContri_entry)
 
     #--Pension Contribution info_label
     pension_contributionInfoL = CTkLabel(
@@ -340,7 +340,7 @@ def create_deductions_frame(root,canvas):
         bg_color = "#f8fafc",
         font = ("Comic Sans Ms",11)
     )
-    canvas.create_window(499,303,window = pension_contributionInfoL)
+    canvas.create_window(499,292,window = pension_contributionInfoL)
 
     #---Other Deductions label---
     pension_contributionL = CTkLabel(
@@ -351,7 +351,7 @@ def create_deductions_frame(root,canvas):
         fg_color = "#f8fafc",
         bg_color = "#f8fafc"
     )
-    canvas.create_window(458,335,window = pension_contributionL)
+    canvas.create_window(458,320,window = pension_contributionL)
 
     #---Other Dection input widget---
     other_DeductionEntry = CTkEntry(
@@ -362,7 +362,7 @@ def create_deductions_frame(root,canvas):
         font = ("Segui UI",15,"bold"),
     )
     other_DeductionEntry.insert(0,"£0.00")
-    canvas.create_window(530,375, window = other_DeductionEntry)
+    canvas.create_window(530,360, window = other_DeductionEntry)
 
     #---other decutions info label---
     otherInfoL = CTkLabel(
@@ -373,7 +373,7 @@ def create_deductions_frame(root,canvas):
         bg_color = "#f8fafc",
         font = ("Comic Sans Ms",11)
     )
-    canvas.create_window(485,413,window = otherInfoL)
+    canvas.create_window(485,398,window = otherInfoL)
 
     #---National Insurance override---
     national_InsuranceOVL = CTkLabel(
@@ -384,7 +384,7 @@ def create_deductions_frame(root,canvas):
         fg_color = "#f8fafc",
         bg_color = "#f8fafc"
     )
-    canvas.create_window(491,447,window = national_InsuranceOVL)
+    canvas.create_window(491,432,window = national_InsuranceOVL)
 
     #---National Insurance input widget---
     national_insuranceEntry = CTkEntry(
@@ -396,7 +396,7 @@ def create_deductions_frame(root,canvas):
         text_color = "#717579",
     )
     national_insuranceEntry.insert(0,"£Auto-calculated")
-    canvas.create_window(530,490, window = national_insuranceEntry)
+    canvas.create_window(530,474, window = national_insuranceEntry)
 
     #---National Insureance info label---
     nATInfoL = CTkLabel(
@@ -407,7 +407,7 @@ def create_deductions_frame(root,canvas):
         bg_color = "#f8fafc",
         font = ("Comic Sans Ms",11)
     )
-    canvas.create_window(495,528,window = nATInfoL)
+    canvas.create_window(495,513,window = nATInfoL)
 
 create_deductions_frame(root,canvas)
 
@@ -435,14 +435,14 @@ def summary_page():
 
     #---window config---
     window = Toplevel()
-    window.geometry("700x500")
+    window.geometry("750x600")
     window.title("Calculation Breakdown")
 
     #---canvas for flexible widget placement---
     canva = Canvas(
         window,
-        width = 700,
-        height = 500,
+        width = 750,
+        height = 600,
         bg = "#f8fafc",
     )
     canva.place(
@@ -451,10 +451,281 @@ def summary_page():
         relheight = 1,
         relwidth = 1,
     )
-
-    calc_breakdownimg = Image.open("calc_breakdown.png").convert("RGBA")
-
+    #---frame container for widget placment---
+    calc_breakdownFrame = CTkFrame(
+        window,
+        width = 730,
+        height = 580,
+        bg_color = "#f8fafc",
+        fg_color = "#D2DCE6",
+        corner_radius = 15,
+    )
+    canva.create_window(375,300,window = calc_breakdownFrame)
     
+    #---title widget with icon---
+    calc_breakdownimg = Image.open("calc_breakdown.png").convert("RGBA")
+    calc_img = ImageTk.PhotoImage(calc_breakdownimg)
+    calc_breakdownlabel = CTkLabel(
+        window,
+        image = calc_img,
+        text = " Calculation Breakdown",
+        text_color = "black",
+        font = ("Arial",18,"bold"),
+        compound = "left",
+        fg_color = "#D2DCE6",
+        bg_color = "#D2DCE6"
+    )
+    canva.create_window(375,50,window = calc_breakdownlabel)
+
+#--------------------------------------------------------------------------------
+
+    #---Gross Monthly Salary Frame---
+    gross_monthly_frame = CTkFrame(
+        window,
+        width = 300,
+        height = 100,
+        fg_color = "#f8fafc",
+        bg_color = "#D2DCE6",
+        corner_radius = 10,
+    )
+    canva.create_window(210,140,window = gross_monthly_frame)
+
+    #---Gross Monthly Salary label---
+    gross_monthly_label = CTkLabel(
+        window,
+        text = "Gross Monthly Salary",
+        text_color = "#5A5A5A",
+        font = ("Segui UI",15,"bold"),
+        bg_color = "#f8fafc",
+        fg_color = "#f8fafc"
+    )
+    canva.create_window(210,120,window = gross_monthly_label)
+    #---Display gross monthly income value label---
+    gross_monthly_value = CTkLabel(
+        window,
+        text = "£2000",
+        text_color = "#000000",
+        font = ("Segui UI",30,"bold"),
+        bg_color = "#f8fafc",
+        fg_color = "#f8fafc"
+    )
+    canva.create_window(210,155,window = gross_monthly_value)
+
+#--------------------------------------------------------------------------------
+
+    #---National Insurance frame---
+    national_insurance_frame = CTkFrame(
+        window,
+        width = 300,
+        height = 100,
+        fg_color = "#f8fafc",
+        bg_color = "#D2DCE6",
+        corner_radius = 10,
+    )
+    canva.create_window(210,260,window = national_insurance_frame)
+
+    #---National Insurance Label---
+    national_insurance_label = CTkLabel(
+        window,
+        text = "National Insurance",
+        text_color = "#5A5A5A",
+        font = ("Segui UI",15,"bold"),
+        bg_color = "#f8fafc",
+        fg_color = "#f8fafc"
+    )
+    canva.create_window(210,240,window = national_insurance_label)
+
+    #---National Insurance value label---
+    national_insurance_value = CTkLabel(
+        window,
+        text = "£200",
+        text_color = "#000000",
+        font = ("Segui UI",30,"bold"),
+        bg_color = "#f8fafc",
+        fg_color = "#f8fafc"
+    )
+    canva.create_window(210,275,window = national_insurance_value)
+
+#---------------------------------------------------------------------------------
+
+    #---Other deductions frame---
+    other_deductions_frame = CTkFrame(
+        window,
+        width = 300,
+        height = 100,
+        fg_color = "#f8fafc",
+        bg_color = "#D2DCE6",
+        corner_radius = 10,
+    )
+    canva.create_window(210,380,window = other_deductions_frame)
+
+    #---Other Deductions Label---
+    other_deductions_label = CTkLabel(
+        window,
+        text = "Other Deductions",
+        text_color = "#5A5A5A",
+        font = ("Segui UI",15,"bold"),
+        bg_color = "#f8fafc",
+        fg_color = "#f8fafc"
+    )
+    canva.create_window(210,360,window = other_deductions_label)
+
+    #---Other Deductions value label---
+    other_deductions_value = CTkLabel(
+        window,
+        text = "£0.00",
+        text_color = "#000000",
+        font = ("Segui UI",30,"bold"),
+        bg_color = "#f8fafc",
+        fg_color = "#f8fafc"
+    )
+    canva.create_window(205,395,window = other_deductions_value)
+
+#---------------------------------------------------------------------------------------
+
+    #---Paye Tax frame---
+    paye_tax_frame = CTkFrame(
+        window,
+        width = 300,
+        height = 100,
+        fg_color = "#f8fafc",
+        bg_color = "#D2DCE6",
+        corner_radius = 10,
+    )
+    canva.create_window(540,140,window = paye_tax_frame)
+
+    #---Paye tax Label---
+    paye_tax_label = CTkLabel(
+        window,
+        text = "PAYE Tax",
+        text_color = "#5A5A5A",
+        font = ("Segui UI",15,"bold"),
+        bg_color = "#f8fafc",
+        fg_color = "#f8fafc"
+    )
+    canva.create_window(540,120,window = paye_tax_label)
+
+    #---Paye tax value label---
+    paye_tax_value = CTkLabel(
+        window,
+        text = "£187.00",
+        text_color = "#000000",
+        font = ("Segui UI",30,"bold"),
+        bg_color = "#f8fafc",
+        fg_color = "#f8fafc"
+    )
+    canva.create_window(540,155,window = paye_tax_value)
+
+#-------------------------------------------------------------------------------
+
+    #---Pension Contribution frame---
+    pension_contribution_frame = CTkFrame(
+        window,
+        width = 300,
+        height = 100,
+        fg_color = "#f8fafc",
+        bg_color = "#D2DCE6",
+        corner_radius = 10,
+    )
+    canva.create_window(540,260,window = pension_contribution_frame)
+
+    #---Pension Contribution Label---
+    pension_contribution_label = CTkLabel(
+        window,
+        text = "Pension Contribution",
+        text_color = "#5A5A5A",
+        font = ("Segui UI",15,"bold"),
+        bg_color = "#f8fafc",
+        fg_color = "#f8fafc"
+    )
+    canva.create_window(540,240,window = pension_contribution_label)
+
+    #---Pension Contribution value label---
+    pension_contribution_value = CTkLabel(
+        window,
+        text = "£124.00",
+        text_color = "#000000",
+        font = ("Segui UI",30,"bold"),
+        bg_color = "#f8fafc",
+        fg_color = "#f8fafc"
+    )
+    canva.create_window(540,275,window = pension_contribution_value)
+
+#-----------------------------------------------------------------------------
+
+#---Total Deductions frame---
+    total_deductions_frame = CTkFrame(
+        window,
+        width = 300,
+        height = 100,
+        fg_color = "#f8fafc",
+        bg_color = "#D2DCE6",
+        corner_radius = 10,
+    )
+    canva.create_window(540,380,window = total_deductions_frame)
+
+    #---Total Deductions Label---
+    total_deductions_label = CTkLabel(
+        window,
+        text = "Total Deductions",
+        text_color = "#5A5A5A",
+        font = ("Segui UI",15,"bold"),
+        bg_color = "#f8fafc",
+        fg_color = "#f8fafc"
+    )
+    canva.create_window(540,360,window = total_deductions_label)
+
+    #---Totaldeductions value label---
+    total_deductions_value = CTkLabel(
+        window,
+        text = "£511.00",
+        text_color = "#000000",
+        font = ("Segui UI",30,"bold"),
+        bg_color = "#f8fafc",
+        fg_color = "#f8fafc"
+    )
+    canva.create_window(540,395,window = total_deductions_value)
+
+#-----------------------------------------------------------------------------------
+
+    #---Net take-homepay frame---
+    net_takehomepay_frame = CTkFrame(
+        window,
+        width = 630,
+        height = 120,
+        fg_color = "#0cac78",
+        bg_color = "#D2DCE6",
+        corner_radius = 10,
+    )
+    canva.create_window(378,510,window = net_takehomepay_frame)
+
+    #---Net take-homepay pay label with icon---
+    moneybag_img2 = Image.open("mgreen.png").convert("RGBA")
+    moneybag_icon = ImageTk.PhotoImage(moneybag_img2)
+    net_takehomepay_label = CTkLabel(
+        window,
+        image = moneybag_icon,
+        text = "NET TAKE-HOME PAY",
+        text_color = "#f8fafc",
+        compound = "left",
+        font = ("Segui UI",16,"bold"),
+        fg_color = "#0cac78",
+        bg_color = "#0cac78"
+    )
+    canva.create_window(378,485,window = net_takehomepay_label)
+
+    #---Take home pay value---
+
+    net_takehomepay_value = CTkLabel(
+        window,
+        text = "£2000",
+        text_color = "#f8fafc",
+        font = ("Segui UI",40,"bold"),
+        fg_color = "#0cac78",
+        bg_color = "#0cac78"
+    )
+    canva.create_window(378,525,window = net_takehomepay_value)
+
 
 Calc_TakehomePayButton = CTkButton(
     root,
