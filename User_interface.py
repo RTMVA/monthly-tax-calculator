@@ -261,7 +261,7 @@ def create_earnings_information_frame(root,canvas):
     canvas.create_window(170,615,window = override_label2)
     
 
-    return hourlywage_entry.get(),monthlyHours_entry.get(),Yearly_grossIncome.get()
+    return hourlywage_entry,monthlyHours_entry,Yearly_grossIncome
 
 
 
@@ -320,15 +320,16 @@ def create_deductions_frame(root,canvas):
     canvas.create_window(470,210,window = pension_contributionL)
 
     #---Pension Contribution entry widget---
-    pesnsion_contriVar = StringVar(value = "£0")
+    #pesnsion_contriVar = StringVar(value = "£0")
     pensionContri_entry = CTkEntry(
         root,
         width = 260,
         height = 48,
         corner_radius = 10,
         font = ("Segui UI",15,"bold"),
-        textvariable = pesnsion_contriVar
+        #textvariable = pesnsion_contriVar
     )
+    pensionContri_entry.insert(0,"£24.00")
     
     canvas.create_window(535,250,window = pensionContri_entry)
 
@@ -410,7 +411,7 @@ def create_deductions_frame(root,canvas):
     )
     canvas.create_window(495,513,window = nATInfoL)
 
-    return pesnsion_contriVar.get(),other_DeductionEntry.get(),national_insuranceEntry.get()
+    return pensionContri_entry,other_DeductionEntry,national_insuranceEntry
 
 
 
@@ -425,7 +426,8 @@ pension , other , ni = create_deductions_frame(root,canvas)
 
 
 
-def summary_page(monthly_income,pension_contribution,national_insurance,gross_income,other_deductions,paye_tax):
+
+def summary_page(rate,hours,yearly_gross_income,pension,other,ni):
     """
     Opens a Toplevel window once the Calculate take home pay button has been clicked
     -displays gross monthly salary
@@ -465,7 +467,21 @@ def summary_page(monthly_income,pension_contribution,national_insurance,gross_in
         corner_radius = 15,
     )
     canva.create_window(375,300,window = calc_breakdownFrame)
-    
+    rate_r = rate.get()
+    hours_r = hours.get()
+    yearly_gross_income_r = yearly_gross_income.get()
+    pension_r = pension.get()
+    other_r = other.get()
+    ni_r = ni.get()
+
+    #---logic implementation----
+    monthly_income = calc_monthlyIncome(hours_r,rate_r)
+    pension_contribution = getpension_contribution(pension_r)
+    national_insurance = getNational_Insurance(ni_r,monthly_income)
+    gross_income = calc_grossIncome(monthly_income,yearly_gross_income_r)
+    other_deductions = getOther_deductions(other_r)
+    paye_tax = calc_payeTax(gross_income)
+
     #---title widget with icon---
     calc_breakdownimg = Image.open("calc_breakdown.png").convert("RGBA")
     calc_img = ImageTk.PhotoImage(calc_breakdownimg)
@@ -729,12 +745,6 @@ def summary_page(monthly_income,pension_contribution,national_insurance,gross_in
         bg_color = "#0cac78"
     )
     canva.create_window(378,525,window = net_takehomepay_value)
-monthly_income = calc_monthlyIncome(hours,rate)
-pension_contribution = getpension_contribution(pension)
-national_insurance = getNational_Insurance(ni,monthly_income)
-gross_income = calc_grossIncome(monthly_income,yearly_gross_income)
-other_deductions = getOther_deductions(other)
-paye_tax = calc_payeTax(gross_income)
 
 #---Button for calculating the take-home Pay---
 calc_img = Image.open("calculator.png").convert("RGBA")
@@ -752,7 +762,7 @@ Calc_TakehomePayButton = CTkButton(
     text_color = "#f0f0f0",
     compound = "left",
     hover_color = "#6640e9",
-    command = lambda:summary_page(monthly_income,pension_contribution,national_insurance,gross_income,other_deductions,paye_tax) 
+    command = lambda:summary_page(rate,hours,yearly_gross_income,pension,other,ni) 
 )
 canvas.create_window(355,700, window = Calc_TakehomePayButton)
 
