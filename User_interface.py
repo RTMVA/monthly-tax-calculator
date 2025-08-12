@@ -458,6 +458,17 @@ def summary_page(rate,hours,yearly_gross_income,pension,other,ni,root,canvas):
 
     if monthly_income == 0 or monthly_income < 0:
         canvas.create_text(400,760,text = "Invalid Data type")
+    
+    elif gross_income is False:
+        canvas.create_text(400,760,text = "Invalid Data type")
+    
+    elif pension_contribution is False:
+        canvas.create_text(400,760,text = "Invalid Data type")
+    
+    elif other_deductions is False:
+        canvas.create_text(400,760,text = "Invalid Data type")
+
+
 
     else:
         #---window config---
@@ -600,7 +611,7 @@ def summary_page(rate,hours,yearly_gross_income,pension,other,ni,root,canvas):
         #---Other Deductions value label---
         other_deductions_value = CTkLabel(
             window,
-            text = f"{other_deductions}",
+            text = f"£{other_deductions}",
             text_color = "#000000",
             font = ("Segui UI",30,"bold"),
             bg_color = "#f8fafc",
@@ -670,7 +681,7 @@ def summary_page(rate,hours,yearly_gross_income,pension,other,ni,root,canvas):
         #---Pension Contribution value label---
         pension_contribution_value = CTkLabel(
             window,
-            text = f"{pension_contribution}",
+            text = f"£{pension_contribution}",
             text_color = "#000000",
             font = ("Segui UI",30,"bold"),
             bg_color = "#f8fafc",
