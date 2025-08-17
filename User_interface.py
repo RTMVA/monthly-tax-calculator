@@ -136,7 +136,6 @@ def create_earnings_information_frame(root,canvas):
         corner_radius = 10,
         font = ("Segui UI",15,"bold"),
     )
-    hourlywage_entry.insert(0,"£14.16")
     canvas.create_window(168,250,window = hourlywage_entry)
 
     #---hourly rate info label---
@@ -169,7 +168,7 @@ def create_earnings_information_frame(root,canvas):
         corner_radius = 10,
         font = ("Segui UI",15,"bold"),
     )
-    monthlyHours_entry.insert(0,"160")
+    
     canvas.create_window(168,358,window = monthlyHours_entry)
 
     #---monthly hours info label---
@@ -238,7 +237,6 @@ def create_earnings_information_frame(root,canvas):
         corner_radius = 10,
         font = ("Segui UI",15,"bold"),
     )
-    Yearly_grossIncome.insert(0,"£1000")
     canvas.create_window(163,555,window = Yearly_grossIncome)
 
     #alternative tip label
@@ -331,7 +329,6 @@ def create_deductions_frame(root,canvas):
         font = ("Segui UI",15,"bold"),
         #textvariable = pesnsion_contriVar
     )
-    pensionContri_entry.insert(0,"£24.00")
     
     canvas.create_window(535,250,window = pensionContri_entry)
 
@@ -365,7 +362,6 @@ def create_deductions_frame(root,canvas):
         corner_radius = 10,
         font = ("Segui UI",15,"bold"),
     )
-    other_DeductionEntry.insert(0,"£0.00")
     canvas.create_window(530,360, window = other_DeductionEntry)
 
     #---other decutions info label---
@@ -378,6 +374,15 @@ def create_deductions_frame(root,canvas):
         font = ("Comic Sans Ms",11)
     )
     canvas.create_window(485,398,window = otherInfoL)
+
+
+
+    def override_ni(national_insuranceEntry):
+        if check_nat.get():
+            national_insuranceEntry.configure(state = "normal")
+        else:
+            national_insuranceEntry.configure(state = "disabled")
+
 
     #---National Insurance override---
     national_InsuranceOVL = CTkLabel(
@@ -400,12 +405,13 @@ def create_deductions_frame(root,canvas):
         text_color = "#717579",
     )
     national_insuranceEntry.insert(0,"£Auto-calculated")
+    national_insuranceEntry.configure(state = "disabled")
     canvas.create_window(530,474, window = national_insuranceEntry)
 
     #---National Insureance info label---
     nATInfoL = CTkLabel(
         root,
-        text = "leave blank for automatic calculation",
+        text = "Tick the box to disable auto-calculation",
         text_color= "#717579",
         fg_color = "#f8fafc",
         bg_color = "#f8fafc",
@@ -413,14 +419,30 @@ def create_deductions_frame(root,canvas):
     )
     canvas.create_window(495,513,window = nATInfoL)
 
-    return pensionContri_entry,other_DeductionEntry,national_insuranceEntry
+#---checkbox widget that indicates whether national insurance value is being overwritten or not---#
+    check_nat = IntVar(value = False)
+    checkbox = CTkCheckBox(
+        root,
+        text = "",
+        variable = check_nat,
+        width= 2,
+        height = 2,
+        bg_color = "#f8fafc",
+        border_color = "#5b43e7",
+        hover_color = "white",
+        fg_color = "#5b43e7",
+        command = lambda:override_ni(national_insuranceEntry)
+    )
+    canvas.create_window(680,475,window = checkbox)
+
+    return pensionContri_entry,other_DeductionEntry,national_insuranceEntry,check_nat
 
 
 
 
 
 rate, hours , yearly_gross_income = create_earnings_information_frame(root,canvas)
-pension , other , ni = create_deductions_frame(root,canvas)
+pension , other , ni , check_nat = create_deductions_frame(root,canvas)
 
 
 
@@ -451,13 +473,19 @@ def summary_page(rate,hours,yearly_gross_income,pension,other,ni,root,canvas):
     #---logic implementation----
     monthly_income = calc_monthlyIncome(hours_r,rate_r)
     pension_contribution = getpension_contribution(pension_r)
-    national_insurance = getNational_Insurance(ni_r,monthly_income)
     gross_income = calc_grossIncome(monthly_income,yearly_gross_income_r)
     other_deductions = getOther_deductions(other_r)
     paye_tax = calc_payeTax(gross_income)
+    national_insurance = getNational_Insurance(ni_r,monthly_income)
+
+
+    total_deductions = calc_total_deductions(pension_contribution,national_insurance,other_deductions,paye_tax)
+    take_homepay = calc_take_homepay(total_deductions,monthly_income)
 
     if monthly_income == 0 or monthly_income < 0:
-        canvas.create_text(400,760,text = "Invalid Data type")
+        canvas.delete("delete")
+        canvas.create_text(354,140,text = "Invalid Data Input",font = ("Comic Sans MS",12,"bold"),fill = "#FF1E00",tags = "delete")
+        canvas.after(2000,lambda:canvas.delete("delete"))
     
     elif gross_income is False:
         canvas.create_text(400,760,text = "Invalid Data type")
@@ -716,7 +744,7 @@ def summary_page(rate,hours,yearly_gross_income,pension,other,ni,root,canvas):
         #---Totaldeductions value label---
         total_deductions_value = CTkLabel(
             window,
-            text = "£511.00",
+            text = f"£{total_deductions}",
             text_color = "#000000",
             font = ("Segui UI",30,"bold"),
             bg_color = "#f8fafc",
@@ -756,7 +784,7 @@ def summary_page(rate,hours,yearly_gross_income,pension,other,ni,root,canvas):
 
         net_takehomepay_value = CTkLabel(
             window,
-            text = "£2000",
+            text = f"£{take_homepay}",
             text_color = "#f8fafc",
             font = ("Segui UI",40,"bold"),
             fg_color = "#0cac78",
