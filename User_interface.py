@@ -380,6 +380,8 @@ def create_deductions_frame(root,canvas):
     def override_ni(national_insuranceEntry):
         if check_nat.get():
             national_insuranceEntry.configure(state = "normal")
+            national_insuranceEntry.delete(0,END)
+            national_insuranceEntry.configure(text_color = "#212121")
         else:
             national_insuranceEntry.configure(state = "disabled")
 
@@ -482,19 +484,30 @@ def summary_page(rate,hours,yearly_gross_income,pension,other,ni,root,canvas):
     total_deductions = calc_total_deductions(pension_contribution,national_insurance,other_deductions,paye_tax)
     take_homepay = calc_take_homepay(total_deductions,monthly_income)
 
-    if monthly_income == 0 or monthly_income < 0:
+    if monthly_income == 0:
         canvas.delete("delete")
         canvas.create_text(354,140,text = "Invalid Data Input",font = ("Comic Sans MS",12,"bold"),fill = "#FF1E00",tags = "delete")
         canvas.after(2000,lambda:canvas.delete("delete"))
     
     elif gross_income is False:
-        canvas.create_text(400,760,text = "Invalid Data type")
+        canvas.delete("delete")
+        canvas.create_text(354,140,text = "Invalid Data Input",font = ("Comic Sans MS",12,"bold"),fill = "#FF1E00",tags = "delete")
+        canvas.after(2000,lambda:canvas.delete("delete"))
     
     elif pension_contribution is False:
-        canvas.create_text(400,760,text = "Invalid Data type")
+        canvas.delete("delete")
+        canvas.create_text(354,140,text = "Invalid Data Input",font = ("Comic Sans MS",12,"bold"),fill = "#FF1E00",tags = "delete")
+        canvas.after(2000,lambda:canvas.delete("delete"))
     
     elif other_deductions is False:
-        canvas.create_text(400,760,text = "Invalid Data type")
+        canvas.delete("delete")
+        canvas.create_text(354,140,text = "Invalid Data Input",font = ("Comic Sans MS",12,"bold"),fill = "#FF1E00",tags = "delete")
+        canvas.after(2000,lambda:canvas.delete("delete"))
+    
+    elif national_insurance is False:
+        canvas.delete("delete")
+        canvas.create_text(354,140,text = "Invalid Data Input",font = ("Comic Sans MS",12,"bold"),fill = "#FF1E00",tags = "delete")
+        canvas.after(2000,lambda:canvas.delete("delete"))
 
 
 
