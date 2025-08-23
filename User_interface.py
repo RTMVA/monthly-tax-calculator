@@ -218,50 +218,7 @@ def create_earnings_information_frame(root,canvas):
     )
     calc_placement = canvas.create_window(133,470,window = calculatedSalaray)
 
-    #---Alternative monthly salary label---
-    or_option = CTkLabel(
-        root,
-        text = "Annual Gross Income ",
-        text_color = "#212121",
-        bg_color = "#f8fafc",
-        fg_color = "#f8fafc",
-        font = ("Segui UI",13,"bold")
-    )
-    canvas.create_window(108,515,window = or_option)
-
-    #---Gross income input widget---
-    Yearly_grossIncome = CTkEntry(
-        root,
-        width = 260,
-        height = 48,
-        corner_radius = 10,
-        font = ("Segui UI",15,"bold"),
-    )
-    canvas.create_window(163,555,window = Yearly_grossIncome)
-
-    #alternative tip label
-    override_label = CTkLabel(
-        root,
-        text = "Enter your expected gross income for the current tax year ",
-        text_color = "#717579",
-        bg_color = "#f8fafc",
-        fg_color = "#f8fafc",
-        font = ("Comic Sans MS",11)
-    )
-    canvas.create_window(175,595,window = override_label)
-
-    override_label2 = CTkLabel(
-        root,
-        text = "(6 April 2025 to 5 April 2026) for accurate calcualtions:",
-        text_color = "#717579",
-        bg_color = "#f8fafc",
-        fg_color = "#f8fafc",
-        font = ("Comic Sans MS",11)
-    )
-    canvas.create_window(170,615,window = override_label2)
-    
-
-    return hourlywage_entry,monthlyHours_entry,Yearly_grossIncome
+    return hourlywage_entry,monthlyHours_entry
 
 
 
@@ -383,6 +340,8 @@ def create_deductions_frame(root,canvas):
             national_insuranceEntry.delete(0,END)
             national_insuranceEntry.configure(text_color = "#212121")
         else:
+            national_insuranceEntry.insert(0,"Auto-calculated")
+            national_insuranceEntry.configure(text_color = "#717579")
             national_insuranceEntry.configure(state = "disabled")
 
 
@@ -443,7 +402,7 @@ def create_deductions_frame(root,canvas):
 
 
 
-rate, hours , yearly_gross_income = create_earnings_information_frame(root,canvas)
+rate, hours = create_earnings_information_frame(root,canvas)
 pension , other , ni , check_nat = create_deductions_frame(root,canvas)
 
 
@@ -453,7 +412,7 @@ pension , other , ni , check_nat = create_deductions_frame(root,canvas)
 
 
 
-def summary_page(rate,hours,yearly_gross_income,pension,other,ni,root,canvas):
+def summary_page(rate,hours,pension,other,ni,root,canvas):
     """
     Opens a Toplevel window once the Calculate take home pay button has been clicked
     -displays gross monthly salary
@@ -467,7 +426,6 @@ def summary_page(rate,hours,yearly_gross_income,pension,other,ni,root,canvas):
         
     rate_r = rate.get()
     hours_r = hours.get()
-    yearly_gross_income_r = yearly_gross_income.get()
     pension_r = pension.get()
     other_r = other.get()
     ni_r = ni.get()
@@ -475,7 +433,7 @@ def summary_page(rate,hours,yearly_gross_income,pension,other,ni,root,canvas):
     #---logic implementation----
     monthly_income = calc_monthlyIncome(hours_r,rate_r)
     pension_contribution = getpension_contribution(pension_r)
-    gross_income = calc_grossIncome(monthly_income,yearly_gross_income_r)
+    gross_income = calc_grossIncome(monthly_income)
     other_deductions = getOther_deductions(other_r)
     paye_tax = calc_payeTax(gross_income)
     national_insurance = getNational_Insurance(ni_r,monthly_income)
@@ -821,7 +779,7 @@ Calc_TakehomePayButton = CTkButton(
     text_color = "#f0f0f0",
     compound = "left",
     hover_color = "#6640e9",
-    command = lambda:summary_page(rate,hours,yearly_gross_income,pension,other,ni,root,canvas) 
+    command = lambda:summary_page(rate,hours,pension,other,ni,root,canvas) 
 )
 canvas.create_window(355,700, window = Calc_TakehomePayButton)
 
