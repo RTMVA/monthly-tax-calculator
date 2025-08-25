@@ -365,7 +365,7 @@ def create_deductions_frame(root,canvas):
         font = ("Segui UI",15,"bold"),
         text_color = "#717579",
     )
-    national_insuranceEntry.insert(0,"£Auto-calculated")
+    national_insuranceEntry.insert(0,"Auto-calculated")
     national_insuranceEntry.configure(state = "disabled")
     canvas.create_window(530,474, window = national_insuranceEntry)
 
@@ -396,14 +396,14 @@ def create_deductions_frame(root,canvas):
     )
     canvas.create_window(680,475,window = checkbox)
 
-    return pensionContri_entry,other_DeductionEntry,national_insuranceEntry,check_nat
+    return pensionContri_entry,other_DeductionEntry,national_insuranceEntry,
 
 
 
 
 
 rate, hours = create_earnings_information_frame(root,canvas)
-pension , other , ni , check_nat = create_deductions_frame(root,canvas)
+pension , other , ni = create_deductions_frame(root,canvas)
 
 
 
@@ -438,6 +438,9 @@ def summary_page(rate,hours,pension,other,ni,root,canvas):
     paye_tax = calc_payeTax(gross_income)
     national_insurance = getNational_Insurance(ni_r,monthly_income)
 
+    print("Types ->", type(pension_contribution), type(paye_tax), type(other_deductions), type(national_insurance))
+    print("Values ->", pension_contribution, paye_tax, other_deductions, national_insurance)
+
 
     total_deductions = calc_total_deductions(pension_contribution,national_insurance,other_deductions,paye_tax)
     take_homepay = calc_take_homepay(total_deductions,monthly_income)
@@ -447,10 +450,6 @@ def summary_page(rate,hours,pension,other,ni,root,canvas):
         canvas.create_text(354,140,text = "Invalid Data Input",font = ("Comic Sans MS",12,"bold"),fill = "#FF1E00",tags = "delete")
         canvas.after(2000,lambda:canvas.delete("delete"))
     
-    elif gross_income is False:
-        canvas.delete("delete")
-        canvas.create_text(354,140,text = "Invalid Data Input",font = ("Comic Sans MS",12,"bold"),fill = "#FF1E00",tags = "delete")
-        canvas.after(2000,lambda:canvas.delete("delete"))
     
     elif pension_contribution is False:
         canvas.delete("delete")
