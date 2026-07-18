@@ -47,7 +47,7 @@ class Employee:
         except ValueError:
             return False
         
-        return round(monthly_pay,2)
+        return monthly_pay
 
 #--------Method: get pension contributions-------------------------------------    
     def get_pension_contribution(self):
@@ -115,7 +115,7 @@ class Employee:
             return False
         else:
             monthly_income = self.calc_monthlyIncome()
-            return round(monthly_income * 12,2)
+            return monthly_income * 12
 
 #--------Method: calculate paye tax---------------------------------------------
     def calc_payeTax(self):
@@ -137,7 +137,7 @@ class Employee:
             return False
 
         if gross_income <= 12570:
-            monthly_tax = 0.0
+            monthly_tax = 0.00
 
         elif gross_income > 12570 and gross_income <= 50270:
             taxable_amount = gross_income - taxfree_allowance
@@ -154,8 +154,8 @@ class Employee:
 
         elif gross_income > 100000 and gross_income <= 125140:
             taxfree_amount_reduction = (gross_income - 100000) / 2
-            max_basic_taxable += taxfree_amount_reduction
             taxfree_allowance = taxfree_allowance - taxfree_amount_reduction
+            taxfree_allowance = max(0, taxfree_allowance)
             taxable_amount = gross_income - taxfree_allowance
             basic_band = max_basic_taxable * 0.2
             taxable_amountH = taxable_amount - max_basic_taxable
@@ -165,11 +165,10 @@ class Employee:
 
         elif gross_income > 125140:
             taxable_amount = gross_income
-            max_basic_taxable += 12570
             basic_band = max_basic_taxable * 0.2
             taxable_amount = gross_income - max_basic_taxable
-            taxable_amountH = taxable_amount - max_upper_taxable
-            upper_band = max_upper_taxable * 0.4
+            taxable_amountH = taxable_amount - (max_upper_taxable + taxfree_allowance)
+            upper_band = (max_upper_taxable + taxfree_allowance) * 0.4
             highest_band = taxable_amountH * 0.45
             annual_tax = basic_band + upper_band + highest_band
             monthly_tax = annual_tax / 12
@@ -245,7 +244,8 @@ class Employee:
             return False
         
         return round(pension + paye_tax + other + ni,2)
-    
+
+#--------method:calculate take home pay--------------------------------------------------------------
     def calc_take_homepay(self):
         monthly_income = self.calc_monthlyIncome()
         total_deductions = self.calc_total_deductions()
@@ -258,4 +258,7 @@ class Employee:
 
 
 
-Clinton = Employee("17","140")
+Clinton = Employee("60","150")
+
+
+print(Clinton.calc_payeTax())

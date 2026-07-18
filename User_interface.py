@@ -1,7 +1,7 @@
 from tkinter import*
 from customtkinter import*
 from icons import*
-from Logic import*
+from logic_class import Employee
 
 #window config
 root = Tk()
@@ -431,21 +431,19 @@ def summary_page(rate,hours,pension,other,ni,root,canvas):
     ni_r = ni.get()
 
     #---logic implementation----
-    monthly_income = calc_monthlyIncome(hours_r,rate_r)
-    pension_contribution = getpension_contribution(pension_r)
-    gross_income = calc_grossIncome(monthly_income)
-    other_deductions = getOther_deductions(other_r)
-    paye_tax = calc_payeTax(gross_income)
-    national_insurance = getNational_Insurance(ni_r,monthly_income)
-
-    print("Types ->", type(pension_contribution), type(paye_tax), type(other_deductions), type(national_insurance))
-    print("Values ->", pension_contribution, paye_tax, other_deductions, national_insurance)
+    user = Employee(rate_r,hours_r,pension_r,other_r,ni_r)
+    monthly_income = user.calc_monthlyIncome()
+    pension_contribution = user.get_pension_contribution()
+    gross_income = user.calc_grossIncome()
+    other_deductions = user.getOther_deductions()
+    paye_tax = user.calc_payeTax()
+    national_insurance = user.calc_national_insurance()
 
 
-    total_deductions = calc_total_deductions(pension_contribution,national_insurance,other_deductions,paye_tax)
-    take_homepay = calc_take_homepay(total_deductions,monthly_income)
+    total_deductions = user.calc_total_deductions()
+    take_homepay = user.calc_take_homepay()
 
-    if monthly_income == 0:
+    if monthly_income is False:
         canvas.delete("delete")
         canvas.create_text(354,140,text = "Invalid Data Input",font = ("Comic Sans MS",12,"bold"),fill = "#FF1E00",tags = "delete")
         canvas.after(2000,lambda:canvas.delete("delete"))
@@ -539,7 +537,7 @@ def summary_page(rate,hours,pension,other,ni,root,canvas):
         #---Display gross monthly income value label---
         gross_monthly_value = CTkLabel(
             window,
-            text = f"£ {monthly_income}",
+            text = f"£ {round(monthly_income,2)}",
             text_color = "#000000",
             font = ("Segui UI",30,"bold"),
             bg_color = "#f8fafc",

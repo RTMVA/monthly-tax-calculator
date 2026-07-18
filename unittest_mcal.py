@@ -33,7 +33,7 @@ class Logic_test(unittest.TestCase):
         valid_cases = [
            ("14.75","143",2109.25),#validation: string float rate * string int hours = float monthly income 2dp
            ("40","40",1600.00), #validation: string integers converted to floats and calculates monthly income properly
-           ("14.75","120.5",1777.38)#validation: takes string floats and converts into float -> return float monthly income
+           ("14.75","120.5",1777.375)#validation: takes string floats and converts into float -> return float monthly income
        ]
         
         for rate,hours,expected in valid_cases:
@@ -159,8 +159,8 @@ class Logic_test(unittest.TestCase):
            (12,80,0.00),
            (15,140,210.50),
            (30,150,752.67),
-           (60,150,2619.33),
-           (80,150,4040.75),
+           (60,150,2686.0),
+           (80,150,4250.25),
        ]
       
        for rate,hour,tax in cases:
